@@ -13,7 +13,7 @@
         android:layout_height="48dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@sample/posts.json/data/authorAvatar" />
+        android:src="@drawable/post_avatar_drawable" />
 
     <TextView
         android:id="@+id/authorName"
@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="@sample/posts.json/data/author"
-        app:layout_constraintBottom_toTopOf="@+id/date"
+        app:layout_constraintBottom_toTopOf="@+id/published"
         app:layout_constraintEnd_toStartOf="@+id/moreVertical"
         app:layout_constraintStart_toEndOf="@id/avatar"
         app:layout_constraintTop_toTopOf="parent"
@@ -35,13 +35,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="bottom"
-        app:constraint_referenced_ids="avatar, date"
+        app:constraint_referenced_ids="avatar, published"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="64dp"
         app:barrierMargin="@dimen/generalSpace"/>
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/published"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/generalSpace"
@@ -89,7 +89,6 @@
         android:id="@+id/likesCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="240"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/likes"
         app:layout_constraintTop_toTopOf="@id/likes"
@@ -109,7 +108,6 @@
         android:id="@+id/sharesCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="9"
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@id/shares"
         app:layout_constraintTop_toTopOf="@id/shares"
@@ -120,7 +118,6 @@
         android:id="@+id/viewsCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="1,1к"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/likes"
         app:layout_constraintBottom_toBottomOf="@id/likes"/>
