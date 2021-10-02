@@ -5,15 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.firstapp.databinding.CardPostBinding
 
 typealias OnLikeListener = (post: Post) -> Unit
+typealias OnShareListener = (post: Post) -> Unit
 
 class PostsAdapter(
-    private val onLikeListener: OnLikeListener
+    private val onLikeListener: OnLikeListener,
+    private val onShareListener: OnShareListener,
 ) : ListAdapter<Post, PostViewHolder>(PostDiffCallback()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = CardPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding, onLikeListener)
+        return PostViewHolder(binding, onLikeListener, onShareListener)
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
@@ -24,7 +27,8 @@ class PostsAdapter(
 
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val onLikeListener: OnLikeListener
+    private val onLikeListener: OnLikeListener,
+    private val onShareListener: OnShareListener,
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(post: Post) {
         binding.apply {
@@ -44,24 +48,25 @@ class PostViewHolder(
             } else {
                 shares.setImageResource(R.drawable.ic_baseline_share_24)
             }
-        }
-        binding.likes.setOnClickListener {
-            viewModel.like()
-        }
-
-        binding.shares.setOnClickListener {
-            viewModel.share()
-        }
-
-        class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
-            override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
-                return oldItem.id == newItem.id
+            likes.setOnClickListener {
+                onLikeListener(post)
             }
 
-            override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
-                return oldItem == newItem
+            shares.setOnClickListener {
+                onShareListener(post)
             }
 
         }
     }
+}
+
+class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
+    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean {
+        return oldItem == newItem
+    }
+
 }
