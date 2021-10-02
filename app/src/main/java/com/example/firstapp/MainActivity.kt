@@ -3,7 +3,7 @@ package com.example.firstapp
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import androidx.activity.viewModels
 import com.example.firstapp.databinding.ActivityMainBinding
 
 fun getFormattedNumber(number: Int): String {
@@ -26,60 +26,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val post = Post(
-            id = 1,
-            author = "Нетология. Университет интернет-профессий будущего",
-            content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработе, аналитике и управвлнию. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия - помочь встать на путь роста и начать цепочку перемен - http://netolo.gy/fyb",
-            published = "21 мая в 18:36",
-            likes = 1499,
-            shares = 15
-        )
-        with(binding) {
-            authorName.text = post.author
-            content.text = post.content
-            published.text = post.published
-            likesCount.text = getFormattedNumber(post.likes)
-            sharesCount.text = getFormattedNumber(post.shares)
-            viewsCount.text = post.views.toString()
-            if (post.likedByMe) {
-                likes.setImageResource(R.drawable.ic_liked)
+        val viewModel: PostViewModel by viewModels()
+        viewModel.data.observe(this) {
+            post -> with(binding) {
+                authorName.text = post.author
+                content.text = post.content
+                published.text = post.published
+                likesCount.text = getFormattedNumber(post.likes)
+                sharesCount.text = getFormattedNumber(post.shares)
+                viewsCount.text = post.views.toString()
+                if (post.likedByMe) {
+                    likes.setImageResource(R.drawable.ic_liked)
+                } else {
+                    likes.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+                }
+                if (post.sharedByMe) {
+                    shares.setImageResource(R.drawable.ic_shared)
+                } else {
+                    shares.setImageResource(R.drawable.ic_baseline_share_24)
+                }
             }
-            if (post.sharedByMe) {
-                shares.setImageResource(R.drawable.ic_shared)
-            }
-
-            likes.setOnClickListener {
-                post.likedByMe = !post.likedByMe
-                likes.setImageResource(
-                    if (post.likedByMe) {
-                        post.likes++
-                        likesCount.text = getFormattedNumber(post.likes)
-                        R.drawable.ic_liked
-                    } else {
-                        post.likes--
-                        likesCount.text = getFormattedNumber(post.likes)
-                        R.drawable.ic_baseline_favorite_border_24
-                    }
-                )
+            binding.likes.setOnClickListener {
+                viewModel.like()
             }
 
-            shares.setOnClickListener {
-                post.sharedByMe = !post.sharedByMe
-                shares.setImageResource(
-                    if (post.sharedByMe) {
-                        post.shares++
-                        sharesCount.text = getFormattedNumber(post.shares)
-                        R.drawable.ic_shared
-                    } else {
-                        post.shares--
-                        sharesCount.text = getFormattedNumber(post.shares)
-                        R.drawable.ic_baseline_share_24
-                    }
-                )
+            binding.shares.setOnClickListener {
+                viewModel.share()
             }
-
-
         }
     }
 }
