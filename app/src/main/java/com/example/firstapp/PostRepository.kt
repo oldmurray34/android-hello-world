@@ -3,7 +3,7 @@ package com.example.firstapp
 import androidx.lifecycle.LiveData
 
 interface PostRepository {
-    val data: LiveData<Post>
-    fun like()
-    fun share()
+    val data: LiveData<List<Post>>
+    fun likeById(id: Long)
+    fun shareById(id: Long)
 }

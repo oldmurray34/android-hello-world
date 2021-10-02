@@ -21,38 +21,18 @@ fun getFormattedNumber(number: Int): String {
 }
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val viewModel: PostViewModel by viewModels()
-        viewModel.data.observe(this) {
-            post -> with(binding) {
-                authorName.text = post.author
-                content.text = post.content
-                published.text = post.published
-                likesCount.text = getFormattedNumber(post.likes)
-                sharesCount.text = getFormattedNumber(post.shares)
-                viewsCount.text = post.views.toString()
-                if (post.likedByMe) {
-                    likes.setImageResource(R.drawable.ic_liked)
-                } else {
-                    likes.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                }
-                if (post.sharedByMe) {
-                    shares.setImageResource(R.drawable.ic_shared)
-                } else {
-                    shares.setImageResource(R.drawable.ic_baseline_share_24)
-                }
-            }
-            binding.likes.setOnClickListener {
-                viewModel.like()
-            }
 
-            binding.shares.setOnClickListener {
-                viewModel.share()
-            }
+        val viewModel: PostViewModel by viewModels()
+        val adapter = PostsAdapter {
+            viewModel.likeById(it.id)
+        }
+        binding.list.adapter = adapter
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
         }
     }
 }
