@@ -3,6 +3,7 @@ package com.example.firstapp
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.firstapp.databinding.ActivityMainBinding
 
@@ -28,13 +29,51 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter (
-            onLikeListener = {viewModel.likeById(it.id)},
-            onShareListener = {viewModel.shareById(it.id)},
-            onRemoveListener = {viewModel.removeById(it.id)}
+            object : OnActionListener {
+                override fun onEditClicked(post: Post) {
+                    viewModel.edit(post)
+                }
+
+                override fun onRemoveClicked(post: Post) {
+                    viewModel.removeById(post.id)
+                }
+
+                override fun onLikeClicked(post: Post) {
+                    viewModel.likeById(post.id)
+                }
+
+                override fun onShareClicked(post: Post) {
+                    viewModel.shareById(post.id)
+                }
+            }
         )
-        binding.list.adapter = adapter
+        binding.posts.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
+        }
+        viewModel.edited.observe(this) {
+            if (it.id == 0L) {
+                return@observe
+            }
+
+            binding.content.setText(it.content)
+            binding.content.requestFocus()
+        }
+        binding.save.setOnClickListener {
+            with(binding.content) {
+                if (text.isNullOrBlank()) {
+                    Toast.makeText(context, "Content must not be empty!",Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                viewModel.changeContent(text.toString())
+                viewModel.save()
+
+                setText("")
+                clearFocus()
+                AndroidUtils.hideKeyboard(this)
+                binding.content.requestFocus()
+            }
         }
     }
 }
