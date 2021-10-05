@@ -73,6 +73,11 @@ class PostRepositoryInMemoryImpl : PostRepository {
     )
 
     private val data = MutableLiveData(defaultPosts)
+
+    override fun removeById(id: Long) {
+        data.value = data.value?.filter { it.id != id }
+    }
+
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
