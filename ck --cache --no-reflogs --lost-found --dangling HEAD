@@ -1,0 +1,60 @@
+[33mcommit a76d5555d23fa0e2c96f0fb70f635025ce87c031[m[33m ([m[1;36mHEAD -> [m[1;32mmvvm[m[33m)[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Tue Sep 28 13:53:43 2021 +0300
+
+    Implemented MVVM
+
+[33mcommit 301d28d99569744a38f0cdc8702396f83aaed5a5[m[33m ([m[1;31mmain/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Sat Sep 25 20:46:11 2021 +0300
+
+    Added likes and shares functionality
+
+[33mcommit 54de665dc741e3f3c4c1471b4cf396f64e701278[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Mon Sep 20 21:02:57 2021 +0300
+
+    Added page
+
+[33mcommit 9a37fb1f91c0643404781ce1457d825dd1cbd52c[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Wed Sep 15 21:57:45 2021 +0300
+
+    Added localisation
+
+[33mcommit 0e620aa71eb867b8ab46c85af28ec10a7da0afee[m
+Merge: 0ddc313 31456d0
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Wed Sep 15 21:16:15 2021 +0300
+
+    Merge remote-tracking branch 'main/master'
+
+[33mcommit 0ddc313a43ede48557697b70ba0b7d23d3a2f9b4[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Wed Sep 15 21:05:12 2021 +0300
+
+    Changed icon
+
+[33mcommit 31456d00c10d05db10e6fedc2281f622edd44204[m
+Author: oldmurray34 <72455969+oldmurray34@users.noreply.github.com>
+Date:   Sun Sep 12 18:29:53 2021 +0300
+
+    Create blank.yml
+
+[33mcommit c67a3887f27fa41893bfa18bcac38f049e7f3135[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Sun Sep 12 18:22:21 2021 +0300
+
+    Added text
+
+[33mcommit 45779d67306f346552c6867ca3eb340cd739465d[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Sun Sep 12 18:20:28 2021 +0300
+
+    Changed text
+
+[33mcommit 0c9f4fc2357c423bde7ee745af7b503eb7fe6d00[m
+Author: oldmurray34 <oldmurray34@gmail.com>
+Date:   Sun Sep 12 18:08:14 2021 +0300
+
+    Initial commit
