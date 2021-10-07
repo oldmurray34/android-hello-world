@@ -3,8 +3,10 @@ package com.example.firstapp
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.widget.addTextChangedListener
 import com.example.firstapp.databinding.ActivityMainBinding
 
 fun getFormattedNumber(number: Int): String {
@@ -59,6 +61,20 @@ class MainActivity : AppCompatActivity() {
             binding.content.setText(it.content)
             binding.content.requestFocus()
         }
+        binding.content.addTextChangedListener {
+            binding.editCancelGroup.visibility = View.VISIBLE
+        }
+        
+        binding.editCancel.setOnClickListener {
+            with(binding.content) {
+                setText("")
+                clearFocus()
+                AndroidUtils.hideKeyboard(this)
+                binding.content.requestFocus()
+                binding.editCancelGroup.visibility = View.GONE
+            }
+        }
+
         binding.save.setOnClickListener {
             with(binding.content) {
                 if (text.isNullOrBlank()) {
@@ -73,6 +89,7 @@ class MainActivity : AppCompatActivity() {
                 clearFocus()
                 AndroidUtils.hideKeyboard(this)
                 binding.content.requestFocus()
+                binding.editCancelGroup.visibility = View.GONE
             }
         }
     }
