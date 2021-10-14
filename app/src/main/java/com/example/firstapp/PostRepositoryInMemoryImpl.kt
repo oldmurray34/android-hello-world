@@ -83,7 +83,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
         data.value = data.value?.map {
             if (it.id == post.id) {
-                it.copy(content = post.content)
+                it.copy(content = post.content, likes = post.likes, shares = post.shares)
             } else {
                 it
             }
@@ -97,22 +97,22 @@ class PostRepositoryInMemoryImpl : PostRepository {
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
-        defaultPosts = defaultPosts.map {
+        data.value = data.value?.map {
             if (it.id != id) it else it.copy(
+                content = it.content,
                 likedByMe = !it.likedByMe,
                 likes = if (it.likedByMe) it.likes - 1 else it.likes + 1
             )
         }
-        data.value = defaultPosts
     }
 
     override fun shareById(id: Long) {
-        defaultPosts = defaultPosts.map {
+        data.value = data.value?.map {
             if (it.id != id) it else it.copy(
+                content = it.content,
                 sharedByMe = !it.sharedByMe,
                 shares = if (it. sharedByMe) it.shares - 1 else it.shares + 1
             )
         }
-        data.value = defaultPosts
     }
 }
