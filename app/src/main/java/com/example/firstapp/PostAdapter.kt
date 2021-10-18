@@ -41,7 +41,7 @@ class PostViewHolder(
             published.text = post.published
             likes.text = getFormattedNumber(post.likes)
             shares.text = getFormattedNumber(post.shares)
-            viewsCount.text = post.views.toString()
+            views.text = post.views.toString()
             likes.isChecked = post.likedByMe
             shares.isChecked = post.sharedByMe
             likes.setOnClickListener {

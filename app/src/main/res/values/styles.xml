@@ -11,4 +11,15 @@
         <item name="android:background">@android:color/transparent</item>
         <item name="iconTint">@color/tint_checked</item>
 </style>
+
+    <style name="icon_views" parent="Widget.MaterialComponents.Button.TextButton.Icon">
+        <item name="iconPadding">8dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>
