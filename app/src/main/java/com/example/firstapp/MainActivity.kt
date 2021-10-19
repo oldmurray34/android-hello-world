@@ -1,10 +1,12 @@
 package com.example.firstapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import com.example.firstapp.databinding.ActivityMainBinding
@@ -46,6 +48,14 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onShareClicked(post: Post) {
                     viewModel.shareById(post.id)
+                    val intent = Intent(Intent.ACTION_SEND).apply {
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                        type = "text/plain"
+                    }
+
+                    val chooser = Intent.createChooser(intent, null)
+
+                    startActivity(intent)
                 }
             }
         )
@@ -53,44 +63,14 @@ class MainActivity : AppCompatActivity() {
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
-        viewModel.edited.observe(this) {
-            if (it.id == 0L) {
-                return@observe
-            }
 
-            binding.content.setText(it.content)
-            binding.content.requestFocus()
+        val launcher = registerForActivityResult(NewPostActivityContract()) { text ->
+            text ?: return@registerForActivityResult
+            viewModel.changeContent(text.toString())
+            viewModel.save()
         }
-        binding.content.addTextChangedListener {
-            binding.editCancelGroup.visibility = View.VISIBLE
-        }
-        
-        binding.editCancel.setOnClickListener {
-            with(binding.content) {
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.content.requestFocus()
-                binding.editCancelGroup.visibility = View.GONE
-            }
-        }
-
-        binding.save.setOnClickListener {
-            with(binding.content) {
-                if (text.isNullOrBlank()) {
-                    Toast.makeText(context, "Content must not be empty!",Toast.LENGTH_SHORT).show()
-                    return@setOnClickListener
-                }
-
-                viewModel.changeContent(text.toString())
-                viewModel.save()
-
-                setText("")
-                clearFocus()
-                AndroidUtils.hideKeyboard(this)
-                binding.content.requestFocus()
-                binding.editCancelGroup.visibility = View.GONE
-            }
+        binding.newPost.setOnClickListener {
+            launcher.launch()
         }
     }
 }
