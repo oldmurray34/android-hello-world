@@ -25,17 +25,26 @@ fun getFormattedNumber(number: Int): String {
     return result
 }
 
+
+
 class MainActivity : AppCompatActivity() {
+    val viewModel: PostViewModel by viewModels()
+    private val launcherEdit = registerForActivityResult(EditPostActivityContract()) { text ->
+        text ?: return@registerForActivityResult
+        viewModel.changeContent(text.toString())
+        viewModel.save()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val viewModel: PostViewModel by viewModels()
         val adapter = PostsAdapter (
             object : OnActionListener {
                 override fun onEditClicked(post: Post) {
                     viewModel.edit(post)
+
                 }
 
                 override fun onRemoveClicked(post: Post) {
@@ -62,6 +71,12 @@ class MainActivity : AppCompatActivity() {
         binding.posts.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
+        }
+        viewModel.edited.observe(this) {
+            if (it.id == 0L) {
+                return@observe
+            }
+            launcherEdit.launch(it.content)
         }
 
         val launcher = registerForActivityResult(NewPostActivityContract()) { text ->

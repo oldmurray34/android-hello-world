@@ -10,9 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstApp">
         <activity
+            android:name=".EditPostActivity"
+            android:exported="false" />
+        <activity
             android:name=".NewPostActivity"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
