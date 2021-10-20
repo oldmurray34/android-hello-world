@@ -1,8 +1,13 @@
 package com.example.firstapp
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +18,7 @@ interface OnActionListener {
     fun onRemoveClicked(post: Post)
     fun onLikeClicked(post: Post)
     fun onShareClicked(post: Post)
+    fun onVideoClicked(post: Post)
 }
 
 
@@ -46,6 +52,11 @@ class PostViewHolder(
             share.isChecked = post.sharedByMe
             likes.setOnClickListener {
                 actionListener.onLikeClicked(post)
+            }
+
+            if (post.videoId == null) video.visibility = View.GONE
+            video.setOnClickListener {
+                actionListener.onVideoClicked(post)
             }
 
             share.setOnClickListener {

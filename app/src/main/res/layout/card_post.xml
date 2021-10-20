@@ -15,6 +15,17 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/post_avatar_drawable" />
 
+    <ImageView
+        android:id="@+id/video"
+        android:layout_width="226dp"
+        android:layout_height="127dp"
+        android:layout_marginTop="@dimen/generalSpace"
+        android:layout_marginBottom="@dimen/generalSpace"
+        android:src="@drawable/video_banner"
+        app:layout_constraintBottom_toTopOf="@id/barrierLower"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/content" />
+
     <TextView
         android:id="@+id/authorName"
         android:layout_width="0dp"

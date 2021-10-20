@@ -2,12 +2,14 @@ package com.example.firstapp
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.launch
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.firstapp.databinding.ActivityMainBinding
 
@@ -45,6 +47,12 @@ class MainActivity : AppCompatActivity() {
                 override fun onEditClicked(post: Post) {
                     viewModel.edit(post)
 
+                }
+
+                override fun onVideoClicked(post: Post) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(post.videoId))
+                    val chooser = Intent.createChooser(intent, null)
+                    startActivity(intent)
                 }
 
                 override fun onRemoveClicked(post: Post) {
