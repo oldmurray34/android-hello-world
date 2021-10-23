@@ -1,6 +1,7 @@
 package com.example.firstapp
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,8 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.firstapp.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 
 fun getFormattedNumber(number: Int): String {
     val numberChars = number.toString().toCharArray().toCollection(ArrayList())
