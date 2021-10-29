@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.content.ContextCompat.startActivity
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ interface OnActionListener {
     fun onLikeClicked(post: Post)
     fun onShareClicked(post: Post)
     fun onVideoClicked(post: Post)
+    fun onContentClicked(post: Post)
 }
 
 
@@ -61,6 +63,10 @@ class PostViewHolder(
 
             share.setOnClickListener {
                 actionListener.onShareClicked(post)
+            }
+
+            content.setOnClickListener {
+                actionListener.onContentClicked(post)
             }
 
             menu.setOnClickListener {

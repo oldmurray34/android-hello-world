@@ -19,7 +19,6 @@ class PostRepositoryFileImpl(
 
     private val filename = "posts.json"
 
-    private var postId = 0L
     private var posts = emptyList<Post>()
 
     private val data = MutableLiveData(posts)
@@ -37,7 +36,7 @@ class PostRepositoryFileImpl(
 
     override fun save(post: Post) {
         if (post.id == 0L) {
-            data.value = listOf(post.copy(id = postId++)) + data.value.orEmpty()
+            data.value = listOf(post.copy(id = data.value?.lastOrNull()?.id?.inc() ?: 1)) + data.value.orEmpty()
             sync()
             return
         }

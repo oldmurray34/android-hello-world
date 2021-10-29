@@ -4,13 +4,13 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
-import com.example.firstapp.databinding.ActivityNewPostBinding
+import com.example.firstapp.databinding.ActivityEditPostBinding
+
 
 class EditPostActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityNewPostBinding.inflate(layoutInflater)
+        val binding = ActivityEditPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.content.setText(intent.getStringExtra(Intent.EXTRA_TEXT))

@@ -9,14 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FirstApp">
+
         <activity
             android:name=".EditPostActivity"
             android:exported="false" />
         <activity
-            android:name=".NewPostActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+            android:name=".AppActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,5 +23,7 @@
             </intent-filter>
         </activity>
     </application>
+
+
 
 </manifest>
