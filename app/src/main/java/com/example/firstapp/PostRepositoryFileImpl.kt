@@ -36,7 +36,12 @@ class PostRepositoryFileImpl(
 
     override fun save(post: Post) {
         if (post.id == 0L) {
-            data.value = listOf(post.copy(id = data.value?.lastOrNull()?.id?.inc() ?: 1)) + data.value.orEmpty()
+            var lastId = data.value?.firstOrNull()?.id
+            if (lastId != null) {
+                data.value = listOf(post.copy(id = lastId + 1)) + data.value.orEmpty()
+            } else {
+                data.value = listOf(post.copy(id = 1)) + data.value.orEmpty()
+            }
             sync()
             return
         }

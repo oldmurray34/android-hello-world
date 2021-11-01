@@ -12,8 +12,11 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
     private val repository: PostRepository = PostRepositoryFileImpl(application)
     val data = repository.getAll()
     private val _edited = MutableLiveData(empty)
+    private val _chosen = MutableLiveData(empty)
     val edited: LiveData<Post>
         get() = _edited
+    val chosen: LiveData<Post>
+        get() = _chosen
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
     fun removeById(id: Long) = repository.removeById(id)
@@ -29,5 +32,9 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
 
     fun edit(post: Post) {
         _edited.value = post
+    }
+
+    fun chosenPost(post: Post) {
+        _chosen.value = post
     }
 }

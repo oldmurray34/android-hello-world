@@ -11,9 +11,6 @@
         android:theme="@style/Theme.FirstApp">
 
         <activity
-            android:name=".EditPostActivity"
-            android:exported="false" />
-        <activity
             android:name=".AppActivity"
             android:exported="true">
             <intent-filter>

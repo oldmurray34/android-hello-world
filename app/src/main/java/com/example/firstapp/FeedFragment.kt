@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.launch
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.firstapp.NewPostFragment.Companion.contentArg
 import com.example.firstapp.databinding.FragmentFeedBinding
 
 
@@ -32,11 +34,12 @@ fun getFormattedNumber(number: Int): String {
 
 class FeedFragment : Fragment() {
     val viewModel: PostViewModel by activityViewModels()
-    private val launcherEdit = registerForActivityResult(EditPostActivityContract()) { text ->
-        text ?: return@registerForActivityResult
-        viewModel.changeContent(text.toString())
-        viewModel.save()
-    }
+//    private val launcherEdit = registerForActivityResult(EditPostActivityContract()) { text ->
+//        text ?: return@registerForActivityResult
+//        viewModel.changeContent(text.toString())
+//        viewModel.save()
+//    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +52,7 @@ class FeedFragment : Fragment() {
             object : OnActionListener {
                 override fun onEditClicked(post: Post) {
                     viewModel.edit(post)
-
+                    findNavController().navigate(R.id.action_feedFragment_to_editPostFragment)
                 }
 
                 override fun onVideoClicked(post: Post) {
@@ -67,7 +70,9 @@ class FeedFragment : Fragment() {
                 }
 
                 override fun onContentClicked(post: Post) {
-                    findNavController().navigate(R.id.action_feedFragment_to_postFragment)
+                    findNavController().navigate(
+                        R.id.action_feedFragment_to_postFragment, bundleOf("postId" to post.id)
+                    )
                 }
 
                 override fun onShareClicked(post: Post) {
@@ -87,12 +92,12 @@ class FeedFragment : Fragment() {
         viewModel.data.observe(viewLifecycleOwner) { posts ->
             adapter.submitList(posts)
         }
-        viewModel.edited.observe(viewLifecycleOwner) {
-            if (it.id == 0L) {
-                return@observe
-            }
-            launcherEdit.launch(it.content)
-        }
+//        viewModel.edited.observe(viewLifecycleOwner) {
+//            if (it.id == 0L) {
+//                return@observe
+//            }
+//            launcherEdit.launch(it.content)
+//        }
 
         binding.newPost.setOnClickListener {
             findNavController().navigate(R.id.action_feedFragment_to_newPostFragment2)
