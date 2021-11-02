@@ -34,7 +34,7 @@ class PostViewModel(application: Application): AndroidViewModel(application) {
         _edited.value = post
     }
 
-    fun chosenPost(post: Post) {
-        _chosen.value = post
+    fun chosenPost(id: Long) {
+        _chosen.value = data.value?.find { it.id == id }
     }
 }

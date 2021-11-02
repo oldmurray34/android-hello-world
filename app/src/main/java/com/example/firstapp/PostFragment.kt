@@ -25,7 +25,7 @@ class PostFragment : Fragment(R.layout.fragment_post) {
         val passedId: Long = arguments?.getLong("postId") ?: 0
 
         fun updateToChosen () {
-            viewModel.data.value?.find { it.id == passedId }?.let { viewModel.chosenPost(it) }
+            viewModel.chosenPost(passedId)
         }
         updateToChosen()
         viewModel.chosen.observe(viewLifecycleOwner) { post ->
