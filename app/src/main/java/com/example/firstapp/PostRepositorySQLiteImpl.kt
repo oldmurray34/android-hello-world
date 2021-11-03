@@ -17,33 +17,46 @@ class PostRepositorySQLiteImpl(
     }
 
     override fun save(post: Post) {
-        if (post.id == 0L) {
-            var lastId = data.value?.firstOrNull()?.id
-            if (lastId != null) {
-                data.value = listOf(post.copy(id = lastId + 1)) + data.value.orEmpty()
-            } else {
-                data.value = listOf(post.copy(id = 1)) + data.value.orEmpty()
-            }
-            return
-        }
-
-        data.value = data.value?.map {
-            if (it.id == post.id) {
-                it.copy(content = post.content, likes = post.likes, shares = post.shares)
-            } else {
-                it
+        val id = post.id
+        val saved = dao.save(post)
+        posts = if (id == 0L) {
+            listOf(saved) + posts
+        } else {
+            posts.map {
+                if (it.id != id) it else saved
             }
         }
+        data.value = posts
+    //        if (post.id == 0L) {
+//            var lastId = data.value?.firstOrNull()?.id
+//            if (lastId != null) {
+//                data.value = listOf(post.copy(id = lastId + 1)) + data.value.orEmpty()
+//            } else {
+//                data.value = listOf(post.copy(id = 1)) + data.value.orEmpty()
+//            }
+//            return
+//        }
+//
+//        data.value = data.value?.map {
+//            if (it.id == post.id) {
+//                it.copy(content = post.content, likes = post.likes, shares = post.shares)
+//            } else {
+//                it
+//            }
+//        }
     }
 
     override fun removeById(id: Long) {
-        data.value = data.value?.filter { it.id != id }
+        dao.removeById(id)
+        posts = posts.filter { it.id != id }
+        data.value = posts
     }
 
     override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
-        data.value = data.value?.map {
+        dao.likeById(id)
+        posts = posts.map {
             if (it.id != id) it else it.copy(
                 content = it.content,
                 likedByMe = !it.likedByMe,
@@ -51,15 +64,18 @@ class PostRepositorySQLiteImpl(
             )
 
         }
+        data.value = posts
     }
 
     override fun shareById(id: Long) {
-        data.value = data.value?.map {
+        dao.shareById(id)
+        posts = posts.map {
             if (it.id != id) it else it.copy(
                 content = it.content,
                 sharedByMe = !it.sharedByMe,
                 shares = if (it.sharedByMe) it.shares - 1 else it.shares + 1
             )
         }
+        data.value = posts
     }
 }
