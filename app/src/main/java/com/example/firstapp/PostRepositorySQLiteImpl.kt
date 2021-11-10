@@ -13,7 +13,7 @@ class PostRepositorySQLiteImpl(
         .map { it.map(PostEntity::toDto) }
 
     override fun save(post: Post) {
-        dao.insert(PostEntity.fromDto(post))
+        dao.save(PostEntity.fromDto(post))
     }
 
     override fun removeById(id: Long) {
