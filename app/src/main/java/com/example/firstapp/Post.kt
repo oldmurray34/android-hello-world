@@ -1,8 +1,5 @@
 package com.example.firstapp
 
-import android.net.Uri
-
-
 data class Post(
     val id: Long = 0L,
     val author: String = "Me",
