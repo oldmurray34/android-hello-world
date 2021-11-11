@@ -24,11 +24,11 @@ class PostFragment : Fragment(R.layout.fragment_post) {
 
         val passedId: Long = arguments?.getLong("postId") ?: 0
 
-        fun updateToChosen () {
-            viewModel.chosenPost(passedId)
-        }
-        updateToChosen()
-        viewModel.chosen.observe(viewLifecycleOwner) { post ->
+        viewModel.chosenPost(passedId).observe(viewLifecycleOwner) { post ->
+            post ?: run {
+                findNavController()
+                return@observe
+            }
             with(binding) {
                 authorName.text = post.author
                 content.text = post.content
@@ -41,7 +41,6 @@ class PostFragment : Fragment(R.layout.fragment_post) {
 
                 likes.setOnClickListener {
                     viewModel.likeById(post.id)
-                    updateToChosen()
                 }
 
                 if (post.videoId == null) binding.video.visibility = View.GONE
@@ -52,7 +51,6 @@ class PostFragment : Fragment(R.layout.fragment_post) {
 
                 share.setOnClickListener {
                     viewModel.shareById(post.id)
-                    updateToChosen()
                     val intent = Intent(Intent.ACTION_SEND).apply {
                         putExtra(Intent.EXTRA_TEXT, post.content)
                         type = "text/plain"
